@@ -1,0 +1,4 @@
+^.*\.Rproj
+^.*\.xlsx
+^.*\.Rproj$
+^\.Rproj\.user$
