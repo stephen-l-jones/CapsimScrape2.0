@@ -5,7 +5,7 @@ parse_list <- function (x, treepath, name_domain = NULL) {
     }
     for (i in seq_along(treepath)) {
       if (treepath[i] == "list") {
-        list_dt <- lapply(x, parse_list, treepath = treepath[-seq_len(i)])
+        list_dt <- lapply(x, parse_recursive, treepath = treepath[-seq_len(i)])
         dt <- mapply(function(elem_name, elem_dt) {
           elem_dt[, names(treepath)[i] := elem_name]
           setcolorder(elem_dt, c(ncol(elem_dt),seq_along(elem_dt)[-ncol(elem_dt)]))
