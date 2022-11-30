@@ -41,3 +41,12 @@ read_capstone <- function (industry_id, round = "0") {
     round       = rounds
   )
 }
+
+#' @export
+print.capstone <- function (x, ...) {
+  industries <- attr(x, "industry_id")
+  for (i in industries) {
+    cat(sprintf("%s: %s\n", i, paste(x$teams()[industry_id == i, team_name], collapse = " ")))
+  }
+  cat(sprintf("Rounds: %s\n", paste(attr(x, "round"), collapse = " ")))
+}
