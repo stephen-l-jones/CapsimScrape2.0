@@ -314,7 +314,11 @@ parse_finance_decisions <- function (x) {
     teamValue  = "pass",
     "scalar"
   )
-  parse_list(x, tree, "finance")
+  dt <- parse_list(x, tree, "finance")
+  if (!("team_name" %in% names(dt))) {
+    dt[j = ":="(team_name = NA_character_)]
+  }
+  return(dt)
 }
 
 parse_product_decisions <- function (x) {
@@ -330,6 +334,10 @@ parse_product_decisions <- function (x) {
   prod <- parse_list(x, c(tree_stub, "scalar"), "product")
   plnt <- parse_list(x, c(tree_stub, plants = "pass", "1" = "pass"), "product")
   fcst <- parse_list(x, c(tree_stub, forecastOrders = "pass", "1" = "pass"), "product")
-  merge(prod, plnt, by = c("industry_id","round","team_name","product_id")) %>%
+  dt <- merge(prod, plnt, by = c("industry_id","round","team_name","product_id")) %>%
    merge(fcst, by = c("industry_id","round","team_name","product_id"))
+  if (!("team_name" %in% names(dt))) {
+    dt[j = ":="(team_name = NA_character_)]
+  }
+  return(dt)
 }
