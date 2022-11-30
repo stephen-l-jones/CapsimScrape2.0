@@ -318,6 +318,9 @@ parse_finance_decisions <- function (x) {
   if (!("team_name" %in% names(dt))) {
     dt[j = ":="(team_name = NA_character_)]
   }
+  if (!("accounts_receivable_days" %in% names(dt))) {
+    dt[j = ":="(accounts_receivable_days = NA_character_)]
+  }
   return(dt)
 }
 

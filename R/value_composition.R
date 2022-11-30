@@ -17,7 +17,8 @@ get_value_composition <- function (
     merge(parse_teams(x),
           by = c("industry_id","team_key")) %>%
     merge(parse_finance_decisions(x),
-          by = c("industry_id","round","team_name")) %>%
+          by    = c("industry_id","round","team_name"),
+          all.x = TRUE) %>%
     merge(segment_value,
           by = c("segment_id")) %>%
     .[j  = ":="(
