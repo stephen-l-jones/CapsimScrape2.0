@@ -64,7 +64,8 @@ set_cookies <- function (resp, cookie_names = NULL, ignore_empty = FALSE) {
   cookie_list <-
     resp %>%
     resp_headers("set-cookie") %>%
-    lapply(str_split, ";") %>%
+    unlist() %>%
+    str_split(";") %>%
     lapply(str_trim)
 
   cookie_name_value <-
