@@ -33,15 +33,16 @@ get_success_measures <- function (x) {
 
 get_final_score <- function (
     x, min_score = 70, max_score = 100, benchmark_score = 95, benchmark_team = "Chester",
-    intensity_adjustment = 0, intensity_factor = 1
+    relative_factor = 1, intensity_factor = 0
 ) {
   get_success_measures(x) %>%
     .[by = .(industry_id, round),
       j  = ":="(relative_score = total_score / total_score[team_name == benchmark_team])] %>%
     .[by = .(industry_id, round),
-      j  = ":="(intensity = (mean(relative_score) + intensity_adjustment)^intensity_factor)] %>%
+      j  = ":="(intensity = mean(relative_score)^intensity_factor)] %>%
     .[j  = ":="(adjusted_score = benchmark_score +
-                  (relative_score - 1) * .3^(intensity^sign(1 - relative_score)) * 100)] %>%
+                  (relative_score^relative_factor - 1) * intensity^sign(relative_score - 1) *
+                  (max_score - min_score))] %>%
     .[j  = ":="(final_score = pmin(max_score, pmax(min_score, adjusted_score, total_score)))] %>%
     .[j  = .SD]
 }
